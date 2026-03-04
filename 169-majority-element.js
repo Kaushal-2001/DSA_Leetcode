@@ -1,20 +1,23 @@
-var SelectionSort = function (arr) {
-    let n = arr.length
-    for(let i=0; i<n - 1; i++){
-        let min = i ;
-        for(let j=i+1; j<n; j++){
-            if(arr[min] > arr[j]){
-                min = j
-            }
+var sortArray = function (arr) {
+    if (arr.length <= 1) return arr;
+    let mid = Math.floor(arr.length / 2);
+    let left = sortArray(arr.slice(0, mid))
+    let right = sortArray(arr.slice(mid))
+    return merge(left, right)
+}
+var merge = function (left, right) {
+    let res = []
+    let i = 0;
+    let j = 0;
+    while (i < left.length && j < right.length) {
+        if (left[i] >= right[j]) {
+            res.push(right[j])
+            j++
         }
-        if(arr[min]!= arr[i]){
-            let temp
-            temp = arr[min]
-            arr[min] = arr[i]
-            arr[i] = temp
+        else {
+            res.push(left[i])
+            i++
         }
     }
-    return arr
-}
-
-console.log(SelectionSort([10,3,2,1,8,6]))
+    return [...res, ...left.slice(i), ...right.slice(j)]
+} 
